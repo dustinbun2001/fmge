@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FMGE PYQ & MCQ Practice Application - Master the Foreign Medical Graduate Examination with high-yield clinical practice questions, mock tests, and flashcards.">
+  <title>Pulse Prep - FMGE Practice Hub</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons for premium visual components -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <div class="logo-icon">
+          <!-- Stethoscope Icon / Custom SVG -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="logo-text">
+          <span>PulsePrep</span>
+          <span class="logo-sub">FMGE Hub</span>
+        </div>
+      </div>
+      
+      <nav style="flex: 1;">
+        <ul class="nav-links">
+          <li class="nav-item">
+            <a class="nav-link active" onclick="app.switchTab('dashboard')">
+              <i data-lucide="layout-dashboard"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="app.switchTab('practice')">
+              <i data-lucide="book-open"></i>
+              <span>Practice Mode</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="app.switchTab('mock')">
+              <i data-lucide="award"></i>
+              <span>Mock Exam</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="app.switchTab('flashcards')">
+              <i data-lucide="layers"></i>
+              <span>Flashcards</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="app.switchTab('bookmarks')">
+              <i data-lucide="bookmark"></i>
+              <span>Bookmarks</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="app.switchTab('analytics')">
+              <i data-lucide="trending-up"></i>
+              <span>Analytics</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="user-avatar">DR</div>
+          <div class="user-info">
+            <span class="user-name">Dr. Aspirant</span>
+            <span class="user-role">FMGE Candidate</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- SVG Gradient definitions for analytical charts -->
+      <svg width="0" height="0" style="position: absolute;">
+        <defs>
+          <linearGradient id="cyan-purple-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#06b6d4" />
+            <stop offset="100%" stop-color="#8b5cf6" />
+          </linearGradient>
+        </defs>
+      </svg>
+      
+      <!-- DASHBOARD TAB -->
+      <section id="dashboard-tab" class="tab-section active">
+        <div class="section-header">
+          <div>
+            <h1 class="section-title">Welcome back, Dr.</h1>
+            <p class="section-subtitle">Track your prep, practice high-yield MCQs, and conquer the FMGE exam.</p>
+          </div>
+        </div>
+        
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="glass-panel stat-card" onclick="app.switchTab('practice')">
+            <div class="stat-icon primary">
+              <i data-lucide="help-circle"></i>
+            </div>
+            <div class="stat-info">
+              <span class="value-text stat-value" id="stats-total-practiced">0</span>
+              <span class="stat-label">Practiced</span>
+            </div>
+          </div>
+          <div class="glass-panel stat-card" onclick="app.switchTab('analytics')">
+            <div class="stat-icon success">
+              <i data-lucide="check-circle2"></i>
+            </div>
+            <div class="stat-info">
+              <span class="value-text stat-value" id="stats-accuracy">0%</span>
+              <span class="stat-label">Accuracy</span>
+            </div>
+          </div>
+          <div class="glass-panel stat-card" onclick="app.switchTab('flashcards')">
+            <div class="stat-icon secondary">
+              <i data-lucide="layers"></i>
+            </div>
+            <div class="stat-info">
+              <span class="value-text stat-value" id="stats-flashcards">0</span>
+              <span class="stat-label">Flashcards Flipped</span>
+            </div>
+          </div>
+          <div class="glass-panel stat-card" onclick="app.switchTab('mock')">
+            <div class="stat-icon cyan">
+              <i data-lucide="hourglass"></i>
+            </div>
+            <div class="stat-info">
+              <span class="value-text stat-value" id="stats-mock-exams">0</span>
+              <span class="stat-label">Mocks Completed</span>
+            </div>
+          </div>
+        </div>
+        
+        <h2 class="subjects-title">
+          <i data-lucide="book-marked" style="color: var(--primary);"></i>
+          <span>Subject Wise Practice</span>
+        </h2>
+        
+        <!-- Grid of Subjects -->
+        <div class="subjects-grid" id="subjects-container">
+          <!-- Dynamic injection from app.js -->
+        </div>
+      </section>
+      
+      <!-- PRACTICE TAB -->
+      <section id="practice-tab" class="tab-section">
+        <div class="section-header">
+          <div>
+            <h1 class="section-title">Practice Mode</h1>
+            <p class="section-subtitle" id="practice-subtitle">Select a subject on the Dashboard to start practice.</p>
+          </div>
+          <button class="btn-secondary" onclick="app.switchTab('dashboard')">
+            <i data-lucide="arrow-left"></i>
+            <span>Subjects</span>
+          </button>
+        </div>
+        
+        <div class="practice-container" id="practice-container-content">
+          <!-- If no subject selected -->
+          <div class="glass-panel no-data-placeholder" id="practice-select-prompt">
+            <i data-lucide="graduation-cap"></i>
+            <h3>No Subject Selected</h3>
+            <p>Select a subject from the Dashboard, or click below to practice random high-yield questions.</p>
+            <button class="btn-primary" onclick="app.startPractice('All Subjects')">Practice All Subjects</button>
+          </div>
+          
+          <!-- Active Practice Question Panel -->
+          <div class="glass-panel" id="active-practice-panel" style="display: none;">
+            <div class="quiz-header">
+              <div class="quiz-info-block">
+                <span class="quiz-subject-tag" id="practice-subject-tag">Anatomy</span>
+                <span class="question-index-tag" id="practice-index-tag">Question 1 of 10</span>
+                <span class="question-index-tag" id="practice-pyq-tag" style="background: rgba(6, 182, 212, 0.15); color: var(--cyan-accent); padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; display: none;">PYQ 2024</span>
+              </div>
+              <button class="bookmark-btn" id="practice-bookmark-btn" onclick="app.toggleBookmarkCurrent()">
+                <i data-lucide="bookmark"></i>
+              </button>
+            </div>
+            
+            <p class="question-text" id="practice-question-text">Question loading...</p>
+            
+            <div class="options-container" id="practice-options-container">
+              <!-- Dynamically populated options -->
+            </div>
+            
+            <div class="quiz-footer">
+              <button class="btn-secondary" id="practice-explain-btn" style="display: none;" onclick="app.toggleExplanation()">
+                <i data-lucide="info"></i>
+                <span>Show Explanation</span>
+              </button>
+              <button class="btn-primary" id="practice-next-btn" style="display: none;" onclick="app.nextPracticeQuestion()">
+                <span>Next Question</span>
+                <i data-lucide="chevron-right"></i>
+              </button>
+            </div>
+            
+            <!-- Explanation Panel -->
+            <div class="explanation-panel" id="practice-explanation-panel" style="display: none;">
+              <h4 class="explanation-title">
+                <i data-lucide="lightbulb"></i>
+                <span>Detailed Explanation</span>
+              </h4>
+              <p class="explanation-text" id="practice-explanation-text">Explanation content...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- MOCK EXAM TAB -->
+      <section id="mock-tab" class="tab-section">
+        <div class="section-header">
+          <div>
+            <h1 class="section-title">Mock Exam Simulator</h1>
+            <p class="section-subtitle">Test yourself under real timed exam-like constraints.</p>
+          </div>
+        </div>
+        
+        <!-- Mock Setup Window -->
+        <div class="glass-panel mock-setup-box" id="mock-setup-view">
+          <i data-lucide="clipboard-list" style="width: 54px; height: 54px; color: var(--primary); margin-bottom: 1.5rem;"></i>
+          <h2>Start a Timed Mock Exam</h2>
+          <p>This exam simulates the FMGE structure. Review your answers, flag questions for revision, and evaluate your final score card.</p>
+          
+          <div class="mock-params">
+            <div class="form-group">
+              <label for="mock-subject">Select Exam Coverage</label>
+              <select class="form-select" id="mock-subject">
+                <option value="all">Full Syllabus (All 19 Subjects)</option>
+                <option value="Anatomy">Anatomy</option>
+                <option value="Pharmacology">Pharmacology</option>
+                <option value="Pathology">Pathology</option>
+                <option value="Forensic Medicine">Forensic Medicine</option>
+                <option value="Medicine">Medicine</option>
+                <option value="Surgery">Surgery</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="mock-size">Number of Questions</label>
+              <select class="form-select" id="mock-size">
+                <option value="10">10 Questions (Quick Quiz - 10 Mins)</option>
+                <option value="20">20 Questions (Standard Mock - 20 Mins)</option>
+                <option value="30">30 Questions (Full Test - 30 Mins)</option>
+              </select>
+            </div>
+          </div>
+          
+          <button class="btn-primary" style="width: 100%; padding: 1rem;" onclick="app.startMockExam()">
+            <i data-lucide="play-circle"></i>
+            <span>Begin Mock Examination</span>
+          </button>
+        </div>
+        
+        <!-- Active Mock Test View -->
+        <div class="mock-container" id="mock-exam-view" style="display: none;">
+          <div class="mock-left">
+            <div class="glass-panel">
+              <div class="quiz-header">
+                <div class="quiz-info-block">
+                  <span class="quiz-subject-tag" id="mock-subject-tag">All Subjects</span>
+                  <span class="question-index-tag" id="mock-index-tag">Question 1 of 10</span>
+                  <span class="question-index-tag" id="mock-pyq-indicator" style="background: rgba(6, 182, 212, 0.15); color: var(--cyan-accent); padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; display: none;">PYQ</span>
+                </div>
+                <button class="bookmark-btn" id="mock-bookmark-btn" onclick="app.toggleBookmarkCurrentMock()">
+                  <i data-lucide="bookmark"></i>
+                </button>
+              </div>
+              
+              <p class="question-text" id="mock-question-text">Question Loading...</p>
+              
+              <div class="options-container" id="mock-options-container">
+                <!-- Option buttons populated by JS -->
+              </div>
+              
+              <div class="quiz-footer">
+                <button class="btn-secondary" onclick="app.flagQuestion()">
+                  <i data-lucide="flag" style="fill: transparent;"></i>
+                  <span id="mock-flag-text">Flag for Review</span>
+                </button>
+                
+                <div style="display: flex; gap: 0.75rem;">
+                  <button class="btn-secondary" onclick="app.prevMockQuestion()" id="mock-prev-btn">
+                    <i data-lucide="chevron-left"></i>
+                    <span>Previous</span>
+                  </button>
+                  <button class="btn-primary" onclick="app.nextMockQuestion()" id="mock-next-btn-action">
+                    <span>Next</span>
+                    <i data-lucide="chevron-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Mock Palette Side Block -->
+          <div class="mock-right">
+            <div class="glass-panel palette-card">
+              <div class="timer-box" id="mock-timer">
+                <i data-lucide="timer"></i>
+                <span id="mock-timer-text">10:00</span>
+              </div>
+              
+              <div class="palette-title">Question Grid</div>
+              
+              <div class="palette-grid" id="mock-palette-grid">
+                <!-- Dynamically filled with interactive items -->
+              </div>
+              
+              <div class="palette-legend">
+                <div class="legend-item">
+                  <div class="legend-color default"></div>
+                  <span>Unvisited</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color active"></div>
+                  <span>Current</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color answered"></div>
+                  <span>Answered</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color flagged"></div>
+                  <span>Flagged</span>
+                </div>
+              </div>
+              
+              <button class="btn-primary" style="background: var(--grad-primary); width: 100%; border: none; padding: 0.85rem;" onclick="app.submitMockConfirm()">
+                <i data-lucide="check-square"></i>
+                <span>Submit Examination</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Scorecard Results View -->
+        <div class="glass-panel scorecard-panel" id="mock-results-view" style="display: none;">
+          <div class="scorecard-circle">
+            <span class="scorecard-score" id="result-percentage">0%</span>
+            <span class="scorecard-total" id="result-fraction">0 / 10</span>
+          </div>
+          <h2 class="scorecard-title" id="result-header">Exam Completed!</h2>
+          <p class="scorecard-desc" id="result-msg">Well done! Here is your performance overview.</p>
+          
+          <div class="scorecard-stats-row">
+            <div class="scorecard-stat-box">
+              <span class="scorecard-stat-val" id="result-correct" style="color: var(--success);">0</span>
+              <span class="scorecard-stat-lbl">Correct</span>
+            </div>
+            <div class="scorecard-stat-box">
+              <span class="scorecard-stat-val" id="result-incorrect" style="color: var(--danger);">0</span>
+              <span class="scorecard-stat-lbl">Incorrect</span>
+            </div>
+            <div class="scorecard-stat-box">
+              <span class="scorecard-stat-val" id="result-unanswered" style="color: var(--text-dark);">0</span>
+              <span class="scorecard-stat-lbl">Unanswered</span>
+            </div>
+          </div>
+          
+          <div class="scorecard-actions">
+            <button class="btn-secondary" onclick="app.switchTab('dashboard')">
+              <i data-lucide="home"></i>
+              <span>Dashboard</span>
+            </button>
+            <button class="btn-primary" onclick="app.restartMock()">
+              <i data-lucide="rotate-ccw"></i>
+              <span>Try Again</span>
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      <!-- FLASHCARDS TAB -->
+      <section id="flashcards-tab" class="tab-section">
+        <div class="section-header">
+          <div>
+            <h1 class="section-title">Revision Flashcards</h1>
+            <p class="section-subtitle">Active recall for high-yield facts, syndromes, and drugs of choice.</p>
+          </div>
+        </div>
+        
+        <div class="flashcards-container">
+          <div class="flashcard-stage" onclick="app.flipFlashcard()">
+            <div class="flashcard-inner" id="flashcard-inner-card">
+              <!-- Front Side -->
+              <div class="flashcard-side flashcard-front">
+                <span class="flashcard-category" id="card-category">Drug of Choice</span>
+                <p class="card-text" id="card-front-text">What is the drug of choice for Syphilis in a pregnant patient?</p>
+              </div>
+              <!-- Back Side -->
+              <div class="flashcard-side flashcard-back">
+                <span class="flashcard-category" id="card-category-back">Drug of Choice</span>
+                <p class="card-text" id="card-back-text">Benzathine Penicillin G.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flashcard-controls" id="card-control-buttons" style="visibility: hidden;">
+            <button class="btn-again" onclick="app.nextFlashcard(false)">
+              <i data-lucide="rotate-ccw"></i>
+              <span>Review Again</span>
+            </button>
+            <button class="btn-know" onclick="app.nextFlashcard(true)">
+              <i data-lucide="check"></i>
+              <span>I Know This</span>
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      <!-- BOOKMARKS TAB -->
+      <section id="bookmarks-tab" class="tab-section">
+        <div class="section-header">
+          <div>
+            <h1 class="section-title">Saved Bookmarks</h1>
+            <p class="section-subtitle">Review questions you saved during practice or mock exams.</p>
+          </div>
+        </div>
+        
+        <div class="bookmarks-list" id="bookmarks-list-container">
+          <!-- Dynamic Injection -->
+        </div>
+      </section>
+      
+      <!-- ANALYTICS TAB -->
+      <section id="analytics-tab" class="tab-section">
+        <div class="section-header">
+          <div>
+            <h1 class="section-title">Performance Analytics</h1>
+            <p class="section-subtitle">Visualize your strengths and identify weak areas by subject.</p>
+          </div>
+        </div>
+        
+        <div class="analytics-grid">
+          <!-- Overall Accuracy Gauge -->
+          <div class="glass-panel chart-card">
+            <h3 class="chart-title">Overall Accuracy</h3>
+            <div class="circular-progress-wrap">
+              <svg class="circular-progress-svg" viewBox="0 0 200 200">
+                <circle class="circular-bg" cx="100" cy="100" r="90" />
+                <circle class="circular-fill" id="analytics-accuracy-fill" cx="100" cy="100" r="90" />
+              </svg>
+              <div class="circular-text">
+                <span class="circular-percentage" id="analytics-accuracy-val">0%</span>
+                <span class="circular-label">Correct</span>
+              </div>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem;" id="analytics-ratio-text">0 of 0 questions correct</p>
+          </div>
+          
+          <!-- Subject Performance Bar Chart -->
+          <div class="glass-panel">
+            <h3 class="chart-title">Accuracy By Subject</h3>
+            <div class="subject-bars-list" id="analytics-subject-bars">
+              <!-- Dynamically rendered rows -->
+            </div>
+          </div>
+        </div>
+      </section>
+      
+    </main>
+    
+  </div>
+  
+  <!-- Link database files and app logic -->
+  <script src="questions.js"></script>
+  <script src="flashcards.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
